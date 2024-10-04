@@ -1,6 +1,6 @@
 <template>
     <footer class="rodape paragrafo">
-      Desenvolvido por Meyre França | 2024 - Projeto fictício sem fins comerciais.
+      <p>Desenvolvido por Meyre França | 2024 - Projeto fictício sem fins comerciais.</p>
     </footer>
   </template>
   
@@ -23,6 +23,9 @@
   @media only screen and (max-width: 767px) {
     .rodape {
       padding: 1.5rem;
+      
+      font-size: 0.8rem;
+      text-align: center;
     }
   }
   </style>

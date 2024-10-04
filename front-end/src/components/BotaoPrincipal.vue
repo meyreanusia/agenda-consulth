@@ -34,4 +34,13 @@ export default {
 .botao-principal:hover {
   background: var(--ocre-hover, #D1451E);
 }
+
+@media only screen and (max-width: 767px) {
+  .botao-principal {
+    width: 11.5rem;
+  font-size: 0.8em;
+
+
+}
+}
 </style>

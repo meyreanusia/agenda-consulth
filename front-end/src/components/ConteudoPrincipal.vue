@@ -111,6 +111,9 @@ export default {
 }
 
 @media only screen and (max-width: 767px) {
+  .containerContatos {
+    justify-content: center;
+}
   .conteudo-principal {
     padding: 4rem 1.5rem;
     gap: 4rem;

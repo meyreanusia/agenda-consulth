@@ -5,9 +5,8 @@ import BotaoPrincipal from "./BotaoPrincipal.vue";
 import { adicionarContato } from "@/api/apiContato";
 
 export default {
-  
   components: { BotaoPrincipal },
-  emits: ["contatoAdicionado",  "finalizarEdicao"],
+  emits: ["contatoAdicionado", "finalizarEdicao"],
   setup(_, { emit }) {
     const contato = ref<IContato>({
       nome: "",
@@ -16,7 +15,7 @@ export default {
       telefone: "",
     });
     const erro = ref<string | null>(null);
-    
+
     const submitForm = async () => {
       if (
         !contato.value.nome ||
@@ -24,8 +23,8 @@ export default {
         !contato.value.telefone ||
         !contato.value.endereco
       ) {
-        erro.value = "Todos os campos devem ser preenchidos."; 
-        return; 
+        erro.value = "Todos os campos devem ser preenchidos.";
+        return;
       } else {
         erro.value = null;
       }
@@ -46,14 +45,14 @@ export default {
     return {
       contato,
       submitForm,
-      erro
+      erro,
     };
   },
 };
 </script>
 
 <template>
-    <p v-if="erro" style="color: red;">{{ erro }}</p>
+  <p v-if="erro" style="color: red">{{ erro }}</p>
   <form class="formulario" @submit.prevent="submitForm">
     <section class="sectionForm">
       <label class="etiquetaForm" for="nome">Nome:</label>
@@ -134,5 +133,14 @@ input:focus {
   border-color: var(--coral);
   box-shadow: 0 0 5px var(--ocre);
   outline: none;
+}
+
+@media only screen and (max-width: 767px) {
+  .sectionForm {
+    flex-direction: column;
+  }
+  input{
+    width: 100%;
+  }
 }
 </style>

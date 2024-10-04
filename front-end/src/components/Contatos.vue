@@ -37,11 +37,12 @@ export default {
 <style scope>
 .containerContatos {
   display: flex;
+  justify-content: center;
+  /* align-items: center; */
   flex-wrap: wrap;
   gap: 1.5rem;
   height: 100%;
+  width: 100%;
 }
-.paragrafo.contato {
-  color: var(--cinza);
-}
+
 </style>
