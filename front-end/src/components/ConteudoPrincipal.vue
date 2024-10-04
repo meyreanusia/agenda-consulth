@@ -1,6 +1,7 @@
 <script lang="ts">
 import Contatos from "./Contatos.vue";
 import NovoContato from "./NovoContato.vue";
+import ModalEditarContato from "./ModalEditarContato.vue";
 import type IContato from "@/interface/IContato";
 import { getContatos, excluirContato, editarContato } from "@/api/apiContato";
 import { onMounted, ref } from "vue";
@@ -9,6 +10,8 @@ export default {
   setup() {
     const contatos = ref<IContato[]>([]);
     const mensagem = ref<string | null>(null);
+    const contatoParaEditar = ref<IContato | null>(null);
+    const modalAberto = ref(false);
 
     const fetchContatos = async () => {
       try {
@@ -36,15 +39,22 @@ export default {
         console.error("Erro ao adicionar contato:", error);
       }
     };
-    const editar = async (contato: IContato) => {
-      console.log(contato);
+    const editar = (contato: IContato) => {
+      contatoParaEditar.value = contato;
+      modalAberto.value = true;
+    };
+
+    const salvarEdicao = async (contatoEditado: IContato) => {
       try {
-        await editarContato(contato);
-        const index = contatos.value.findIndex((c) => c.nome === contato.nome);
+        await editarContato(contatoEditado);
+        const index = contatos.value.findIndex(
+          (c) => c.id === contatoEditado.id
+        );
         if (index !== -1) {
-          contatos.value[index] = contato;
+          contatos.value[index] = contatoEditado;
         }
         setMensagem("Contato editado com sucesso!");
+        fecharModal(); // Fechar o modal após a edição
       } catch (error) {
         setMensagem("Erro ao editar contato.");
         console.error("Erro ao editar contato:", error);
@@ -62,6 +72,11 @@ export default {
       }
     };
 
+    const fecharModal = () => {
+      modalAberto.value = false;
+      contatoParaEditar.value = null;
+    };
+
     onMounted(fetchContatos);
 
     return {
@@ -70,9 +85,13 @@ export default {
       editar,
       excluir,
       mensagem,
+      modalAberto,
+      contatoParaEditar,
+      salvarEdicao,
+      fecharModal,
     };
   },
-  components: { NovoContato, Contatos },
+  components: { NovoContato, Contatos, ModalEditarContato },
   methods: {},
 };
 </script>
@@ -84,12 +103,17 @@ export default {
     </div>
     <NovoContato @contatoAdicionado="adicionarNovoContato" />
     <Contatos :contatos="contatos" @editar="editar" @excluir="excluir" />
+
+    <ModalEditarContato
+      v-if="modalAberto && contatoParaEditar"
+      :contato="contatoParaEditar"
+      @atualizarContato="salvarEdicao"
+      @fecharModal="fecharModal"
+    />
   </main>
 </template>
 
 <style scoped>
-
-
 .conteudo-principal {
   min-height: 70vh;
   padding: 6.5rem 7.5rem;
@@ -113,7 +137,7 @@ export default {
 @media only screen and (max-width: 767px) {
   .containerContatos {
     justify-content: center;
-}
+  }
   .conteudo-principal {
     padding: 4rem 1.5rem;
     gap: 4rem;

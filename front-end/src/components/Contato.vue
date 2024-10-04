@@ -38,8 +38,8 @@ export default {
       </li>
     </ul>
     <div class="contato__acoes">
-      <button @click="editar">Editar</button>
-      <button @click="excluir">Excluir</button>
+      <button @click="$emit('editar', contato)">Editar</button>
+      <button @click="$emit('excluir', contato)">Excluir</button>
     </div>
   </article>
 </template>

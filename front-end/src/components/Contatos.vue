@@ -3,7 +3,7 @@ import Contato from "./Contato.vue";
 import type IContato from "@/interface/IContato";
 
 export default {
-  components: { Contato },
+  components: { Contato },  
   props: {
     contatos: {
       type: Array as () => IContato[],
@@ -22,7 +22,7 @@ export default {
 };
 </script>
 
-<template>
+<template>  
   <div class="containerContatos">
     <li v-for="(contato, index) in contatos" :key="index">
       <Contato

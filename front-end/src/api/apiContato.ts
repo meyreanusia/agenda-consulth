@@ -9,7 +9,7 @@ async function obterDadosURL<T>(url: string) {
 }
 
 export async function getContatos() {
-    const contatos = await obterDadosURL<IContato[]>('https://gist.githubusercontent.com/meyreanusia/96aaa7d365564c653a23f2a90b5ad7b4/raw/b0184f224e084b79ed6b10d17a9d6c15f1eaa746/contatos.json');
+    const contatos = await obterDadosURL<IContato[]>('https://gist.githubusercontent.com/meyreanusia/96aaa7d365564c653a23f2a90b5ad7b4/raw/08ff7bb7a62c15f27554daaaacb4029c1f02bfdb/contatos.json');
     let contatosExistentes = obterContatosLocalStorage();
     if (contatosExistentes.length === 0) {
         localStorage.setItem('contatos', JSON.stringify(contatos));
@@ -32,16 +32,19 @@ export const obterContatosLocalStorage = (): IContato[] => {
 
 export const excluirContato = (nome: string) => {
     const contatos = obterContatosLocalStorage();
-    const novosContatos = contatos.filter(contato => contato.nome !== nome); 
+    const novosContatos = contatos.filter(contato => contato.nome !== nome);
     localStorage.setItem('contatos', JSON.stringify(novosContatos));
 };
 
 export const editarContato = (contatoEditado: IContato) => {
-    console.log('editarContato', contatoEditado);
-
     const contatos = obterContatosLocalStorage();
-    const novosContatos = contatos.map(contato => 
-        contato.nome === contatoEditado.nome ? contatoEditado : contato
-    );
+
+    const novosContatos = contatos.map(contato => {
+        const idIgual = contato.id === contatoEditado.id;
+        contato.id === contatoEditado.id ? contatoEditado : contato
+        return idIgual ? contatoEditado : contato;
+    });
+    console.log(novosContatos);
+
     localStorage.setItem('contatos', JSON.stringify(novosContatos));
 };

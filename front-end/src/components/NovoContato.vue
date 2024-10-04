@@ -3,6 +3,7 @@ import { ref } from "vue";
 import type IContato from "@/interface/IContato";
 import BotaoPrincipal from "./BotaoPrincipal.vue";
 import { adicionarContato } from "@/api/apiContato";
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   components: { BotaoPrincipal },
@@ -13,6 +14,7 @@ export default {
       email: "",
       endereco: "",
       telefone: "",
+      id: uuidv4(),
     });
     const erro = ref<string | null>(null);
 
@@ -21,7 +23,8 @@ export default {
         !contato.value.nome ||
         !contato.value.email ||
         !contato.value.telefone ||
-        !contato.value.endereco
+        !contato.value.endereco ||
+        !contato.value.id
       ) {
         erro.value = "Todos os campos devem ser preenchidos.";
         return;
@@ -36,6 +39,7 @@ export default {
           email: "",
           endereco: "",
           telefone: "",
+          id: uuidv4()
         };
       } catch (error) {
         console.error("Erro ao adicionar contato:", error);
